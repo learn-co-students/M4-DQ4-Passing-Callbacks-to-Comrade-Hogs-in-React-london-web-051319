@@ -7,9 +7,6 @@ import exclamation from "../assets/exclamation.png"
 export default class GalaxySNote7 extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      panicked: false,
-    }
 
     this.squeelAudio = new Audio(wreee);
     this.exclaimAudio = new Audio(exclaim);
@@ -25,7 +22,7 @@ export default class GalaxySNote7 extends React.Component {
   }
 
   exclaim = () => {
-    if (this.state.panicked) return
+    if (this.props.environment === 'panicked') return
     this.exclaimAudio.play()
     this.squeelAudio.play()
   }
@@ -34,8 +31,14 @@ export default class GalaxySNote7 extends React.Component {
 
   render() {
     return(
-      <div id="galaxy-s-note" onClick={this.exclaim}>
-        {(this.state.panicked) ? this.panic() : null}
+      <div id="galaxy-s-note"
+        onClick={ () => {
+            this.props.alterEnvironment('panicked');
+            this.exclaim();
+          }
+        }
+      >
+        {(this.props.environment === 'panicked') ? this.panic() : null}
       </div>
     )
   }
